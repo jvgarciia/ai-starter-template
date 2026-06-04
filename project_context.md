@@ -52,6 +52,87 @@ educational, not just functional.
 
 ---
 
+## Browser Testing Workflow
+
+Browser testing is part of the standard development loop for this project, not a separate QA phase.
+
+**Use the connected Chrome integration after any change that affects UI, interaction, or API responses.**
+
+Quick reference — trigger browser testing when:
+- A component, layout, or style was changed
+- A form, button, or interactive element was added or modified
+- An API route response changed and the UI depends on it
+- The app was deployed and the live URL needs verification
+
+Do NOT open the browser for:
+- Pure logic or utility changes with no visual output
+- Documentation edits
+- Environment variable changes
+
+**Standard sequence for every UI change:**
+1. Confirm dev server is running (`npm run dev`)
+2. Load the page, verify no blank screen or console errors
+3. Test the changed interaction end-to-end
+4. Check browser console — zero red errors is the bar
+5. Verify edge cases (empty input, loading state, error state)
+
+**Scope rule:** Browser testing is for validation only — not autonomous redesign. Report discovered issues before fixing anything outside the original task scope.
+
+Full browser testing rules and decision tables live in `CLAUDE.md` under **Browser Testing Workflow**.
+
+---
+
+## Secondary AI Review Workflow
+
+This project uses a structured, human-directed multi-AI workflow — not an autonomous agent system.
+
+**The four layers, in order:**
+1. **Human** — sets direction, approves changes, owns product decisions
+2. **Primary AI** — implements, architects, maintains project context
+3. **Secondary AI** — reviews, debugs, checks adversarially when needed
+4. **Browser** — validates real behavior after code and review are complete
+
+**Use secondary AI review when:**
+- A new API route, security-adjacent change, or multi-file refactor was made
+- A bug could not be isolated after two attempts
+- A deployment failed and the cause is unclear
+- The primary AI flagged uncertainty about an approach
+
+**Skip secondary AI review when:**
+- The change is small, contained, and browser-tested successfully
+- It's a documentation, config, or environment variable update
+- The feature is still being actively iterated — wait for it to stabilize
+
+**Core rules:**
+- One primary AI agent at a time — no parallel architecture sessions
+- Secondary AI produces a report; the primary agent applies approved changes
+- Human approves changes between every layer — no autonomous handoffs
+- Project context must be summarized before switching AI tools
+
+Full workflow rules, responsibility tables, and anti-patterns live in `CLAUDE.md` under **Secondary AI Review Workflow**.
+
+---
+
+## Core AI Builder Stack
+
+Globally installed skills that activate on demand. Not stored in this repo.
+
+| Skill | Trigger it when... | Do NOT use for... |
+|-------|-------------------|-------------------|
+| `llm-council` | High-stakes product/architecture decision · "council this" · "pressure-test this" | Coding tasks, bug fixes, clear-answer questions |
+| `ui-ux-pro-max` | Building a new page type, choosing a visual style, finding UX patterns | Backend logic, component-level animation polish |
+| `emil-design-eng` | Refining interaction feel, animation timing, press feedback, easing | Strategic decisions, early wireframes |
+| `find-skills` | Task sounds specialized · "find a skill for X" | Tasks with a known approach |
+| `[gsd]` | *Not yet installed* — execution mindset for fast shipping | — |
+
+**Layering order:** `llm-council` → `[gsd]` → `ui-ux-pro-max` → `emil-design-eng` → browser test → ship
+
+Full skill documentation, trigger phrases, CLI commands, and interaction rules live in `CLAUDE.md` under **Core AI Builder Stack**.
+
+**Skill usage verification rule:** When a skill is used, state which skill, why it was invoked, what it specifically contributed, and what decisions it changed. For design tasks: `ui-ux-pro-max` contributions first, then `emil-design-eng`. Do not claim a skill was used unless its output actually influenced the result.
+
+---
+
 ## How to Explain Changes
 
 Every time a file is created or modified, Claude Code should explain:

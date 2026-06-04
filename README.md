@@ -93,6 +93,27 @@ Variables in `.env.local` are **not** uploaded to Vercel automatically. You must
 
 ---
 
+## AI Workflow Layer
+
+This template is designed to work with a set of globally installed AI skills that extend Claude Code's capabilities. When present in your environment, they activate automatically at the right moment in the build process.
+
+| Skill | What it does | When it activates |
+|-------|-------------|-------------------|
+| `llm-council` | Runs a decision through 5 independent AI advisors + peer review → chairman verdict + HTML report | Before committing to a product direction or major architecture change |
+| `ui-ux-pro-max` | Searchable design database: UX patterns, color palettes, font pairings, chart types | When designing a new page, choosing a visual style, or looking for SaaS UX patterns |
+| `emil-design-eng` | Reviews UI for animation timing, easing, press feedback, and interaction polish | After layout is set — before shipping a user-facing surface |
+| `find-skills` | Searches the skills.sh ecosystem for installable domain-specific skills | When a task feels specialized and a dedicated skill might exist |
+
+**Install missing skills via terminal:**
+```bash
+npx skills add [owner/repo@skill-name] -g   # install globally
+npx skills find [query]                     # search the ecosystem
+```
+
+These skills are global — they travel with you across every project, not just this one.
+
+---
+
 ## Customizing for a New Project
 
 1. Change `NEXT_PUBLIC_APP_NAME` in `.env.local`
