@@ -27,6 +27,20 @@ educational, not just functional.
 
 ---
 
+## High Autonomy Development Mode
+
+Claude Code operates with high autonomy by default — move fast, keep it safe.
+
+**May do automatically:** inspect files, edit files, create files, small refactors, run `git status`, run `npm run lint`, run `npm run dev` / `npm run build`, fix errors it caused, update `project_context.md`, summarize changes.
+
+**Must ask first:** install/remove packages · delete files · change `.env` files · change deployment config · add auth/database/RAG/search · major architecture changes · destructive git commands · git commit · push to GitHub · merge branches.
+
+**Always finish with:** files changed · what changed · checks run · errors found/fixed · how to test locally · recommended commit message.
+
+Full rules live in `CLAUDE.md` under **High Autonomy Development Mode**.
+
+---
+
 ## Rules Claude Code Must Follow
 
 ### Code quality
@@ -54,31 +68,25 @@ educational, not just functional.
 
 ## Browser Testing Workflow
 
-Browser testing is part of the standard development loop for this project, not a separate QA phase.
+Use terminal/API tests for backend-only changes. Use the browser tool for any user-visible change.
 
-**Use the connected Chrome integration after any change that affects UI, interaction, or API responses.**
+**User-visible changes include:** components, layout, loading/error states, forms, buttons, result rendering, badges, links, end-to-end behavior.
 
-Quick reference — trigger browser testing when:
-- A component, layout, or style was changed
-- A form, button, or interactive element was added or modified
-- An API route response changed and the UI depends on it
-- The app was deployed and the live URL needs verification
+**Skip the browser for:** logic-only changes, env variable updates, documentation edits, `lib/ai.js` refactors where the API surface is unchanged.
 
-Do NOT open the browser for:
-- Pure logic or utility changes with no visual output
-- Documentation edits
-- Environment variable changes
+**Required checks for every user-visible change:**
+1. Open the app in Chrome or preview tool
+2. Interact with the changed feature
+3. Confirm UI renders correctly
+4. Check browser console for errors
+5. Check network/API errors if a data flow changed
+6. Report what was visually verified
 
-**Standard sequence for every UI change:**
-1. Confirm dev server is running (`npm run dev`)
-2. Load the page, verify no blank screen or console errors
-3. Test the changed interaction end-to-end
-4. Check browser console — zero red errors is the bar
-5. Verify edge cases (empty input, loading state, error state)
+**Fallback:** If browser tools are unavailable, say so and fall back to terminal/API testing.
 
-**Scope rule:** Browser testing is for validation only — not autonomous redesign. Report discovered issues before fixing anything outside the original task scope.
+**Scope rule:** Validation only — not autonomous redesign. Report discovered issues before fixing anything outside the original task scope.
 
-Full browser testing rules and decision tables live in `CLAUDE.md` under **Browser Testing Workflow**.
+Full rules live in `CLAUDE.md` under **Browser Testing Workflow**.
 
 ---
 

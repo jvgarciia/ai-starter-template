@@ -22,6 +22,125 @@ It is not documentation for humans. It is the persistent operating system for AI
 
 ---
 
+## High Autonomy Development Mode
+
+Claude Code works with high autonomy by default. The goal is to move fast while keeping the project safe, readable, and easy to understand.
+
+### What Claude Code may do automatically
+
+Unless explicitly told otherwise, Claude Code may:
+
+1. Inspect the current project structure and relevant files
+2. Edit existing files
+3. Create new files when needed for the requested feature
+4. Refactor small pieces of code when it improves clarity
+5. Run `git status` after changes
+6. Run `npm run lint` if available
+7. Run `npm run dev` or `npm run build` when useful to verify the app
+8. Fix lint, build, or runtime errors caused by its own changes
+9. Update `project_context.md` when the implementation changes project behavior
+10. Summarize what changed, why it changed, and how to test it
+
+Claude Code should not ask for approval for normal implementation steps, small refactors, UI changes, or bug fixes that are clearly part of the requested task.
+
+### Protected actions — ask before doing these
+
+Claude Code must ask for explicit approval before:
+
+1. Installing, removing, or upgrading packages
+2. Deleting files
+3. Changing environment variables or `.env` files
+4. Changing deployment configuration
+5. Adding authentication
+6. Adding a database
+7. Adding RAG or vector database infrastructure
+8. Adding live web search or tool-calling infrastructure
+9. Introducing a major architecture change
+10. Running destructive Git commands
+11. Merging branches or worktrees
+
+### After every implementation
+
+Always finish with:
+
+1. **Files changed** — list each file modified or created
+2. **What changed** — plain-language description per file
+3. **Checks run** — lint, build, or dev server results
+4. **Errors found/fixed** — any issues encountered and how they were resolved
+5. **How to test locally** — the exact steps to verify the feature works
+6. **Git status** — confirm what was committed and pushed, or provide a ready-to-use commit message if not auto-committed
+
+### Working directory
+
+Before making changes, confirm the working directory is the correct project root.
+
+---
+
+## Automatic Git Workflow
+
+For safe, normal changes, Claude Code should commit and push automatically without asking — as long as all of the conditions below are met.
+
+### Conditions for automatic commit and push
+
+All six must be true before committing or pushing automatically:
+
+1. The change is a normal implementation, bug fix, UI update, documentation update, or small refactor
+2. Relevant checks have passed — `npm run lint`, `npm run build`, or a dev server start where appropriate
+3. `git status` has been reviewed and only expected files are staged
+4. No sensitive files are staged — specifically:
+   - `.env` or `.env.local`
+   - Files containing API keys, tokens, or credentials
+   - Local machine configuration files
+5. The commit message clearly describes the actual change
+6. The change does not involve any protected action listed in the High Autonomy section
+
+If any condition is not met, stop and ask before proceeding.
+
+### Default behavior for safe changes
+
+When all conditions are met, Claude Code should:
+
+1. Implement the requested change
+2. Run checks (`npm run lint`, `npm run build`, or dev server as appropriate)
+3. Review `git status` to confirm what is staged
+4. Commit with a clear, descriptive message
+5. Push to the current branch on GitHub
+6. Summarize: what changed, what checks passed, and the final Git status
+
+### Changes that still require approval before committing
+
+Ask before committing or pushing when the change involves:
+
+- Installing, removing, or upgrading packages
+- Deleting files
+- Changing environment variables or `.env` files
+- Changing deployment configuration
+- Adding authentication, database, RAG, or search infrastructure
+- Major architecture changes
+- Destructive Git commands
+- Merging branches
+
+### Commit message format
+
+Commit messages should be plain, specific, and describe the actual change — not the task or request.
+
+**Good:**
+```
+Add loading state to submit button in ChatBox
+Fix missing jsconfig.json path alias for @/ imports
+Update project_context.md with browser testing workflow
+```
+
+**Avoid:**
+```
+Updated files
+Fixed the thing
+WIP
+Changes per request
+```
+
+---
+
 ## Project Identity
 
 **What this is:**
@@ -178,75 +297,47 @@ This project currently has one real page (`app/page.js`). Future test routes sho
 
 ## Browser Testing Workflow
 
-Browser testing is part of the standard development workflow, not an optional extra step.
+Use terminal or API tests for backend-only changes. For any change involving user-visible behavior, use the Chrome or preview tool when available.
 
-### When to use browser testing
+### What counts as a user-visible change
 
-Use the connected Chrome integration after any change that affects what the user sees or interacts with:
+Use the browser tool after any change to:
 
-- A new component was added or an existing one was restyled
-- A form, button, input, or interactive element was modified
-- An API route was changed and the UI depends on its response
-- A loading state, error state, or empty state was introduced
-- A layout shift, spacing change, or responsive behavior was updated
-- The app was deployed to Vercel and the live URL needs spot-checking
+- Components or page layout
+- Loading states or error states
+- Forms, buttons, or inputs
+- Report or result rendering
+- Badges or status messages
+- Clickable links
+- End-to-end app behavior
 
 ### When text/code inspection is enough
 
-Do not open the browser for changes that have no visible effect:
+Do not open the browser for changes with no visible effect:
 
-- Editing a comment, renaming a variable, or restructuring logic inside a function
+- Editing comments, renaming variables, or restructuring logic
 - Adding or updating environment variables
 - Modifying `project_context.md`, `CLAUDE.md`, or `README.md`
-- Refactoring inside `lib/ai.js` when the API surface (function names, inputs, outputs) stays the same
+- Refactoring inside `lib/ai.js` when the API surface stays the same
 
-### Standard browser testing sequence
+### Required browser checks
 
-After any meaningful UI/UX change, run through this sequence:
+For every user-visible change, run through this sequence:
 
-1. **Confirm the dev server is running** (`npm run dev` → `localhost:3000`)
-2. **Load the affected page** and verify it renders without a blank screen or crash
-3. **Test the changed flow end-to-end** — not just that it looks right, but that it works
-4. **Check the browser console** for errors or warnings (red = must fix before shipping; yellow = investigate)
-5. **Test edge cases** relevant to the change: empty input, long text, slow network, rapid clicks
-6. **Verify visual integrity** — spacing, alignment, text wrapping, button states (hover, disabled, loading)
+1. Open the local app in Chrome or the preview tool
+2. Interact with the changed feature
+3. Confirm the UI renders correctly
+4. Check the browser console for errors
+5. Check network or API errors if the change touches a data flow
+6. Report what was visually verified
 
-### What browser testing validates
+### Scope rule
 
-| Category | What to check |
-|----------|--------------|
-| Page load | No blank screen, no 404, no hydration errors in console |
-| Forms & inputs | Placeholder text, focus state, submit behavior, disabled state |
-| Buttons | Hover style, disabled state during loading, click feedback |
-| AI responses | Message appears, loading indicator shows and hides, errors display inline |
-| Scroll behavior | New messages scroll into view automatically |
-| Responsive layout | Check at common widths — mobile (~375px), tablet (~768px), desktop |
-| Console stability | Zero red errors after any user interaction |
+Browser testing is for **validation only** — not autonomous redesign. Report discovered issues before fixing anything outside the original task scope.
 
-### Scope rules — critical
+### Fallback
 
-Browser testing is for **validation and debugging only**. It is not a license for autonomous redesign.
-
-- **Report discovered issues before fixing them** — describe what was found, then ask before changing anything unrelated to the original task
-- **Do not redesign what was not asked to change** — if a button color looks off but the task was about the input field, flag it as a note, not a fix
-- **One problem at a time** — fix the thing that was asked about, report anything else separately
-
-### Localhost vs. live URL testing
-
-| Target | When to use |
-|--------|-------------|
-| `localhost:3000` | Always — primary testing environment during development |
-| Vercel preview URL | After deploying a branch — verify env variables loaded and build succeeded |
-| Vercel production URL | After merging to main — final smoke test before calling a feature done |
-
-### Avoiding unnecessary browser automation
-
-Do not open the browser to:
-- Confirm that a CSS class was added to a file (read the file instead)
-- Verify that a variable name was changed (read the file instead)
-- "See how it looks" after a change that has no visual output
-
-Browser testing has a cost — it takes time and attention. Use it when it gives information that reading code cannot.
+If browser tools are unavailable, say so clearly and fall back to terminal or API testing.
 
 ---
 
