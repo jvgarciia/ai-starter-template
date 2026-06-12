@@ -76,53 +76,46 @@ Before making changes, confirm the working directory is the correct project root
 
 ---
 
-## Automatic Git Workflow
+## Git Workflow
 
-For safe, normal changes, Claude Code should commit and push automatically without asking — as long as all of the conditions below are met.
+Commit and push automatically when a meaningful unit of work is complete and safe.
 
-### Conditions for automatic commit and push
+### What counts as a meaningful unit of work
 
-All six must be true before committing or pushing automatically:
+- A feature is implemented
+- A bug is fixed
+- Documentation is updated
+- A refactor is completed
+- A verified checkpoint is reached
 
-1. The change is a normal implementation, bug fix, UI update, documentation update, or small refactor
-2. Relevant checks have passed — `npm run lint`, `npm run build`, or a dev server start where appropriate
-3. `git status` has been reviewed and only expected files are staged
-4. No sensitive files are staged — specifically:
-   - `.env` or `.env.local`
-   - Files containing API keys, tokens, or credentials
-   - Local machine configuration files
-5. The commit message clearly describes the actual change
-6. The change does not involve any protected action listed in the High Autonomy section
+### Before every commit
 
-If any condition is not met, stop and ask before proceeding.
+1. Run `git status` and review changed files
+2. Confirm no `.env.local`, secrets, API keys, or local config are staged
+3. Run relevant checks when appropriate (`npm run lint`, `npm run build`)
+4. Write a clear commit message describing the actual change
 
-### Default behavior for safe changes
+### What to never commit
 
-When all conditions are met, Claude Code should:
+- Broken or half-finished code
+- Random experiments
+- Secrets, tokens, or local machine config
+- Changes the user did not ask for
 
-1. Implement the requested change
-2. Run checks (`npm run lint`, `npm run build`, or dev server as appropriate)
-3. Review `git status` to confirm what is staged
-4. Commit with a clear, descriptive message
-5. Push to the current branch on GitHub
-6. Summarize: what changed, what checks passed, and the final Git status
+### Still requires approval
 
-### Changes that still require approval before committing
+Ask before doing any of the following:
 
-Ask before committing or pushing when the change involves:
-
-- Installing, removing, or upgrading packages
-- Deleting files
-- Changing environment variables or `.env` files
-- Changing deployment configuration
-- Adding authentication, database, RAG, or search infrastructure
-- Major architecture changes
-- Destructive Git commands
-- Merging branches
+- `git push --force`
+- `git rebase`
+- `git reset --hard`
+- Deleting many files at once
+- Installing or removing packages
+- Changing deployment, auth, database, or payment configuration
 
 ### Commit message format
 
-Commit messages should be plain, specific, and describe the actual change — not the task or request.
+Plain, specific, describes the actual change — not the task or request.
 
 **Good:**
 ```
