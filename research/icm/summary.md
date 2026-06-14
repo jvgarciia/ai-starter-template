@@ -1,9 +1,11 @@
 # Interpretable Context Methodology (ICM) — Practical Summary
 
 **Paper title:** Interpretable Context Methodology: Folder Structure as Agent Architecture
-**Author:** RinDig (contact: theceo@eduba.io) — full author information at arXiv
-**arXiv:** 2603.16021v2 (submitted March 2026, v2)
-**License:** arXiv non-exclusive distribution license — see https://info.arxiv.org/help/license/index.html
+**Authors:** Jake Van Clief and David McDermott
+**arXiv:** 2603.16021v2 — 18 March 2026
+**Licences:**
+- The ICM protocol and open-source repository are MIT licensed (as described in the paper)
+- The browser-rendered arXiv version of the paper is CC BY 4.0
 **GitHub:** https://github.com/RinDig/Interpretable-Context-Methodology-ICM-
 **Paper location:** `research/icm/interpretable-context-methodology.pdf`
 
