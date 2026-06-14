@@ -114,6 +114,27 @@ These skills are global — they travel with you across every project, not just 
 
 ---
 
+## Research & Workflow Templates
+
+This repo includes research material and reusable templates for AI workflow design.
+
+### Interpretable Context Methodology (ICM)
+
+A pattern for building sequential, inspectable AI workflows using folder structure and markdown
+files instead of orchestration frameworks.
+
+| Resource | What it is |
+|----------|------------|
+| [`research/icm/summary.md`](research/icm/summary.md) | Concise summary of the ICM paper — what it is, when to use it, limitations |
+| [`research/icm/adoption-checklist.md`](research/icm/adoption-checklist.md) | Decision checklist for whether a workflow is a good ICM fit |
+| [`templates/staged-ai-workflow/`](templates/staged-ai-workflow/) | Copy-and-adapt template for building staged AI workflows |
+| Original paper | `research/icm/interpretable-context-methodology.pdf` |
+
+**Quick start:** Copy `templates/staged-ai-workflow/` into your project, rename the stage
+folders to match your workflow, and fill in each stage's `CONTEXT.md` contract.
+
+---
+
 ## Customizing for a New Project
 
 1. Change `NEXT_PUBLIC_APP_NAME` in `.env.local`

@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Stage02Output",
+  "description": "Schema for the structured output produced by Stage 02. This stage consumes Stage 01's approved output and transforms or extends it. Replace the fields below with your stage's actual output shape. If Stage 02 produces Markdown instead of JSON, delete this file.",
+  "type": "object",
+  "required": ["id", "status", "source_id", "results", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this stage's output."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["complete", "partial", "needs_review"],
+      "description": "Indicates whether Stage 02 completed successfully or requires human attention."
+    },
+    "source_id": {
+      "type": "string",
+      "description": "The id field from Stage 01's output. Records which Stage 01 run this output was derived from."
+    },
+    "results": {
+      "type": "array",
+      "description": "The transformed or extended output items produced by Stage 02.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["ref_label", "output"],
+        "additionalProperties": false,
+        "properties": {
+          "ref_label": {
+            "type": "string",
+            "description": "The label from the corresponding Stage 01 item this result derives from."
+          },
+          "output": {
+            "type": "string",
+            "description": "The Stage 02 transformation or elaboration of the Stage 01 item."
+          },
+          "flags": {
+            "type": "array",
+            "description": "Optional: issues or concerns this stage surfaced for human review.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "string",
+      "description": "Optional: one-paragraph synthesis of the stage's overall output, written for a human reviewer."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Run-level context recorded alongside the output.",
+      "required": ["created_at", "stage01_output_path"],
+      "additionalProperties": true,
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this output was generated."
+        },
+        "stage01_output_path": {
+          "type": "string",
+          "description": "Path to the Stage 01 output file this stage consumed."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional: free-text notes added by the AI or the human reviewer."
+        }
+      }
+    }
+  }
+}

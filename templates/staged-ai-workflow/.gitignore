@@ -1,0 +1,17 @@
+# Ignore generated run artifacts and stage outputs.
+# Keep: runs/README.md, each output/.gitkeep, and all CONTEXT.md / schema files.
+
+# Stage output files (keep .gitkeep so the folder is tracked)
+stages/*/output/*
+!stages/*/output/.gitkeep
+
+# Dated run copies (keep README.md)
+runs/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]/
+runs/*.md
+!runs/README.md
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
