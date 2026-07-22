@@ -9,10 +9,11 @@ It is not documentation for humans. It is the persistent operating system for AI
 
 **Every session must follow this sequence before writing any code:**
 
-1. Read `project_context.md` to understand the current state of the project
-2. Check which files have changed recently if context is unclear (`git log --oneline -10`)
-3. Confirm the task fits the product vision before implementing
-4. After any major change, update `project_context.md` to reflect the new state
+1. Check if `todo.md` exists. If it does not, and `project_context.md` describes a specific project (not the generic starter template description), generate `todo.md` automatically by exploring the codebase and breaking the stated goal into phases — before doing anything else the user asked for. If `project_context.md` still describes this as the generic starter template, skip this step — there is no real goal yet to break into phases.
+2. Read `project_context.md` to understand the current state of the project
+3. Check which files have changed recently if context is unclear (`git log --oneline -10`)
+4. Confirm the task fits the product vision before implementing
+5. After any major change, update `project_context.md` to reflect the new state
 
 **Never:**
 - Start coding before reading `project_context.md`
@@ -637,6 +638,7 @@ When a skill is used, the response must explicitly state:
 |------|---------|----------------|
 | `CLAUDE.md` | Permanent operating rules and philosophy — rarely changes | Only when the fundamental stack or workflow changes |
 | `project_context.md` | Current project state, decisions made, features added | After every major change or new feature |
+| `todo.md` | What is left to do right now — phases, statuses, and verified progress | Before starting a phase, immediately after finishing one, and whenever a status turns out to be wrong |
 
 **After any session that changes the architecture, adds a new route, or introduces a new pattern:**
 Update `project_context.md` with:
@@ -645,6 +647,51 @@ Update `project_context.md` with:
 - What the new file does and how it connects to the rest of the app
 
 **Never put temporary or session-specific notes in either file.** Those belong in a task list or commit message.
+
+---
+
+## Task Tracking
+
+Three files serve different memory roles in this project:
+
+- `CLAUDE.md` — how we work (permanent rules, never session-specific)
+- `project_context.md` — what the project is and how it got here
+- `todo.md` — what is left to do right now
+
+`todo.md` answers a question the other two files do not: what is unfinished, and what is the current priority.
+
+### Format
+
+```markdown
+# Todo — [Project Name]
+
+## Phase 1 — [Phase Name]
+- [x] Task description — done and verified in the actual code or browser
+- [~] Task description — partially done or implemented but not fully tested
+- [ ] Task description — not started
+
+## Phase 2 — [Phase Name]
+- [ ] Task description
+```
+
+**Status markers:**
+- `[x]` — complete and verified. Only mark done when the feature works end-to-end, not just when code is written.
+- `[~]` — partial or untested. Implemented but not confirmed working, or blocked partway through.
+- `[ ]` — not started.
+
+### The verified-state rule
+
+`todo.md` must reflect the real, verified state of the code at all times. If something marked `[x]` turns out not to work, correct it to `[~]` immediately — before doing anything else. A false `[x]` is worse than no `todo.md` at all.
+
+### When to update
+
+- Before starting a new phase — confirm the previous phase's items are accurately marked
+- Immediately after finishing a task or phase — update status before moving on
+- Whenever a status turns out to be wrong — fix it on the spot
+
+### When to generate `todo.md` automatically
+
+If `todo.md` does not exist and `project_context.md` describes a specific project (not the generic starter template), explore the codebase and generate `todo.md` before doing any other work in that session. Break the project's stated goal into phases that match what has already been built and what remains. Do not generate `todo.md` when `project_context.md` still describes this repo as the generic starter template — there is no real goal yet to phase out.
 
 ---
 
