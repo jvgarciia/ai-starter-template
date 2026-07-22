@@ -729,6 +729,13 @@ Local development (.env.local)
 
 Every time code is created or changed, the response must include:
 
+### 0. TL;DR
+One sentence, plain English, no file names, no technical terms. States what happened and flags anything the user needs to decide. This comes before everything else.
+
+Good: "The chat button now stays disabled while the AI is thinking, so users can't accidentally send a message twice."
+Good: "The AI provider is now configurable — you need to decide whether to keep Claude as the default or switch to OpenAI."
+Avoid: "Updated ChatBox.js to disable the submit button during fetch and added an AI_PROVIDER env variable."
+
 ### 1. What changed
 Name the specific file(s) and describe what was done in plain language. No vague summaries like "updated the component."
 
