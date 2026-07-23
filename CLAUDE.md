@@ -630,7 +630,37 @@ When a skill is used, the response must explicitly state:
 
 ---
 
-## Context Management Rules
+## Marketing Skills
+
+A suite of marketing skills is installed globally via `coreyhaines31/marketingskills` in `~/.agents/skills/`. These activate automatically — do not wait for an explicit request to use them.
+
+**Installed skills include:** `product-marketing`, `copywriting`, `cold-email`, `lead-magnets`, `seo-audit`, `cro`, and others covering the full go-to-market surface.
+
+### When to invoke automatically
+
+Use the appropriate marketing skill whenever a task touches any of these areas:
+
+| Task area | Skill to use |
+|-----------|-------------|
+| Positioning, ICP, messaging hierarchy | `product-marketing` |
+| Website copy, landing pages, headlines | `copywriting` |
+| Cold outreach and email sequences | `cold-email` |
+| Lead magnets and content offers | `lead-magnets` |
+| Search visibility and on-page SEO | `seo-audit` |
+| Conversion rate and funnel optimization | `cro` |
+
+Do not wait for the user to ask "use the marketing skill." If the task is marketing-shaped, invoke the skill.
+
+### The product-marketing doc comes first
+
+Before using any marketing skill other than `product-marketing` itself, check whether `.agents/product-marketing.md` exists.
+
+- **If it does not exist:** run the `product-marketing` skill first to build it. Every other skill should pull audience, positioning, and ICP (Ideal Customer Profile — a description of the specific type of customer the product is built for) from this doc rather than inferring them from scratch.
+- **If it exists:** load it as context before invoking any other skill.
+
+### Research before generating
+
+If a task requires information not already captured in `.agents/product-marketing.md` — competitor positioning, current market data, customer language from reviews or interviews — do that research first and update the doc before producing any copy or recommendations. Generating output against guessed context produces work that will need to be redone.
 
 `project_context.md` is the living memory of this project. `CLAUDE.md` (this file) is the permanent rules layer. They serve different purposes:
 
