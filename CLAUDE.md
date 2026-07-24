@@ -764,14 +764,12 @@ Local development (.env.local)
 
 ## Communication and Output Expectations
 
-Every time code is created or changed, the response must include:
+Every response that involves a code change must open with a **one-line TL;DR**
+before anything else: plain English, no file names, no technical terms — just
+what happened and, if anything, what the user needs to decide. Someone should be
+able to read only that line and know whether they need to act.
 
-### 0. TL;DR
-One sentence, plain English, no file names, no technical terms. States what happened and flags anything the user needs to decide. This comes before everything else.
-
-Good: "The chat button now stays disabled while the AI is thinking, so users can't accidentally send a message twice."
-Good: "The AI provider is now configurable — you need to decide whether to keep Claude as the default or switch to OpenAI."
-Avoid: "Updated ChatBox.js to disable the submit button during fetch and added an AI_PROVIDER env variable."
+After the TL;DR, the full breakdown follows:
 
 ### 1. What changed
 Name the specific file(s) and describe what was done in plain language. No vague summaries like "updated the component."
@@ -783,7 +781,7 @@ The strategic or architectural reason behind the decision — not just what the 
 One transferable concept or pattern the user can carry into future projects. Written for a non-developer. Avoid jargon without a definition.
 
 **Tone rules:**
-- Plain English. If a technical term is necessary, define it in the same sentence.
+- Plain English. If a technical term is necessary, define it in the same sentence — including in the TL;DR itself if one can't be avoided there.
 - Concise. One clear sentence is better than a paragraph of hedging.
 - Direct. State decisions as decisions, not as suggestions.
 - No "great question!" or filler phrases.
