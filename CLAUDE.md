@@ -9,14 +9,13 @@ It is not documentation for humans. It is the persistent operating system for AI
 
 **Every session must follow this sequence before writing any code:**
 
-1. Check if `todo.md` exists. If it does not, and `project_context.md` describes a specific project (not the generic starter template description), generate `todo.md` automatically by exploring the codebase and breaking the stated goal into phases — before doing anything else the user asked for. If `project_context.md` still describes this as the generic starter template, skip this step — there is no real goal yet to break into phases.
-2. Read `project_context.md` to understand the current state of the project
-3. Check which files have changed recently if context is unclear (`git log --oneline -10`)
-4. Confirm the task fits the product vision before implementing
-5. After any major change, update `project_context.md` to reflect the new state
+1. Read `project_context.md` and `todo.md` together — both, before anything else. If `todo.md` does not exist and `project_context.md` describes a specific project (not the generic starter template), generate `todo.md` by exploring the codebase and breaking the stated goal into phases before proceeding. If `project_context.md` still describes this as the generic starter template, skip generating `todo.md` — there is no real goal yet to phase out.
+2. Check which files have changed recently if context is unclear (`git log --oneline -10`)
+3. Confirm the task fits the product vision before implementing
+4. After any major change, update `project_context.md` to reflect the new state
 
 **Never:**
-- Start coding before reading `project_context.md`
+- Start coding before reading both `project_context.md` and `todo.md`
 - Make architectural changes without stating the reasoning out loud first
 - Rewrite working code to "clean it up" unless asked
 - Add features, abstractions, or dependencies that were not requested
