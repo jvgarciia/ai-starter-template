@@ -9,7 +9,7 @@ It is not documentation for humans. It is the persistent operating system for AI
 
 **Every session must follow this sequence before writing any code:**
 
-1. Read `project_context.md` and `todo.md` together — both, before anything else. If `todo.md` does not exist and `project_context.md` describes a specific project (not the generic starter template), generate `todo.md` by exploring the codebase and breaking the stated goal into phases before proceeding. If `project_context.md` still describes this as the generic starter template, skip generating `todo.md` — there is no real goal yet to phase out.
+1. Read `project_context.md` and `todo.md` together — both, in full, before any other action. Not one first and the other later. Not one only if the task seems to need it. Both files, every session, no exceptions. (This rule exists because reading only one at the start and opening the other later caused a real session slip — it is load-bearing.) If `todo.md` does not exist and `project_context.md` describes a specific project (not the generic starter template), generate `todo.md` by exploring the codebase and breaking the stated goal into phases before proceeding. If `project_context.md` still describes this as the generic starter template, skip generating `todo.md` — there is no real goal yet to phase out.
 2. Check which files have changed recently if context is unclear (`git log --oneline -10`)
 3. Confirm the task fits the product vision before implementing
 4. After any major change, update `project_context.md` to reflect the new state
@@ -78,7 +78,7 @@ Before making changes, confirm the working directory is the correct project root
 
 ## Git Workflow
 
-Commit and push automatically when a meaningful unit of work is complete and safe.
+Claude commits automatically once a unit of work is safe and complete. No need to ask first for an ordinary commit — commits are local and low-risk.
 
 ### What counts as a meaningful unit of work
 
@@ -92,26 +92,34 @@ Commit and push automatically when a meaningful unit of work is complete and saf
 
 1. Run `git status` and review changed files
 2. Confirm no `.env.local`, secrets, API keys, or local config are staged
-3. Run relevant checks when appropriate (`npm run lint`, `npm run build`)
-4. Write a clear commit message describing the actual change
+3. Confirm `.claude/settings.local.json` and `.claude/worktrees/` are not staged
+4. Run relevant checks when appropriate (`npm run lint`, `npm run build`)
+5. Write a clear commit message describing the actual change
 
 ### What to never commit
 
 - Broken or half-finished code
 - Random experiments
 - Secrets, tokens, or local machine config
+- `.claude/settings.local.json` or `.claude/worktrees/`
 - Changes the user did not ask for
+
+### Pushing requires explicit user approval
+
+**Claude never pushes on its own.** Commits accumulate locally as work happens; nothing leaves the machine until the user says to push. When a push looks like a good idea — a session is wrapping up, a feature is verified, several commits have built up — Claude should say so and ask, not push and then report it.
 
 ### Still requires approval
 
 Ask before doing any of the following:
 
+- `git push` (any push — see above)
 - `git push --force`
 - `git rebase`
 - `git reset --hard`
 - Deleting many files at once
 - Installing or removing packages
 - Changing deployment, auth, database, or payment configuration
+- Merging branches or worktrees
 
 ### Commit message format
 
