@@ -9,13 +9,13 @@ It is not documentation for humans. It is the persistent operating system for AI
 
 **Every session must follow this sequence before writing any code:**
 
-1. Read `project_context.md` to understand the current state of the project
+1. Read `project_context.md` and `todo.md` together — both, in full, before any other action. Not one first and the other later. Not one only if the task seems to need it. Both files, every session, no exceptions. (This rule exists because reading only one at the start and opening the other later caused a real session slip — it is load-bearing.) If `todo.md` does not exist and `project_context.md` describes a specific project (not the generic starter template), generate `todo.md` by exploring the codebase and breaking the stated goal into phases before proceeding. If `project_context.md` still describes this as the generic starter template, skip generating `todo.md` — there is no real goal yet to phase out.
 2. Check which files have changed recently if context is unclear (`git log --oneline -10`)
 3. Confirm the task fits the product vision before implementing
 4. After any major change, update `project_context.md` to reflect the new state
 
 **Never:**
-- Start coding before reading `project_context.md`
+- Start coding before reading both `project_context.md` and `todo.md`
 - Make architectural changes without stating the reasoning out loud first
 - Rewrite working code to "clean it up" unless asked
 - Add features, abstractions, or dependencies that were not requested
@@ -28,7 +28,7 @@ It is not documentation for humans. It is the persistent operating system for AI
 A reusable starter template for AI-powered web apps. Built so the owner never has to configure the same foundational setup twice. Copy the folder, rename it, add an API key, and a new project is running in under five minutes.
 
 **Who it is for:**
-A marketing student learning to build with AI systems. Not a software engineer. Every decision must balance professional quality with educational clarity.
+[BUILDER PROFILE — fill in per project. Describe who will use and maintain this, their technical level, and what that means for code complexity and explanation depth.]
 
 **The core promise:**
 This template should always feel like a launchpad, not a framework. It does the minimum required to start any AI app — and no more.
@@ -391,7 +391,12 @@ Local development (.env.local)
 
 ## Communication and Output Expectations
 
-Every time code is created or changed, the response must include:
+Every response that involves a code change must open with a **one-line TL;DR**
+before anything else: plain English, no file names, no technical terms — just
+what happened and, if anything, what the user needs to decide. Someone should be
+able to read only that line and know whether they need to act.
+
+After the TL;DR, the full breakdown follows:
 
 ### 1. What changed
 Name the specific file(s) and describe what was done in plain language. No vague summaries like "updated the component."
@@ -403,7 +408,7 @@ The strategic or architectural reason behind the decision — not just what the 
 One transferable concept or pattern the user can carry into future projects. Written for a non-developer. Avoid jargon without a definition.
 
 **Tone rules:**
-- Plain English. If a technical term is necessary, define it in the same sentence.
+- Plain English. If a technical term is necessary, define it in the same sentence — including in the TL;DR itself if one can't be avoided there.
 - Concise. One clear sentence is better than a paragraph of hedging.
 - Direct. State decisions as decisions, not as suggestions.
 - No "great question!" or filler phrases.
@@ -438,7 +443,7 @@ Before adding any new npm package, ask: can this be done with what is already in
 
 These are the decisions that were made deliberately and should not be undone without discussion:
 
-- **JavaScript, not TypeScript** — the user is learning; type annotations add cognitive overhead without benefit at this stage
+- **JavaScript, not TypeScript** — [fill in reason per project; default rationale: type annotations add overhead for this project's audience]
 - **No database** — state lives in the browser or in AI conversation history; persistence can be added later with a specific product requirement
 - **No authentication** — the template is for prototyping and learning; auth can be bolted on with NextAuth when a product needs it
 - **Single AI wrapper file** — `lib/ai.js` is intentionally the only place where provider logic lives; distributing this across files would make provider-switching impossible to maintain

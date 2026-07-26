@@ -31,3 +31,7 @@ yarn-error.log*
 .idea/
 *.swp
 *.swo
+
+# ─── Claude Code (local AI session config — never commit) ────
+.claude/settings.local.json
+.claude/worktrees/
